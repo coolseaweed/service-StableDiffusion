@@ -1,0 +1,48 @@
+version: '3.9'
+
+services:
+
+  backend:
+    container_name: python-backend
+
+    build:
+      context: ./python-backend
+      dockerfile: Dockerfile
+
+    ports:
+      - "8080:8080"
+
+    volumes:
+      - ./python-backend:/api
+
+    tty: true
+    command: /bin/bash
+
+  stable-diffusion:
+    container_name: stable-diffusion
+    build:
+      context: ./stable-diffusion
+      dockerfile: Dockerfile
+
+    ipc: host
+
+    ports:
+      - "18000:8000"
+      - "18001:8001"
+      - "18002:8002"
+
+    environment:
+      TZ: "Asia/Seoul"
+      CUDA_VISIBLE_DEVICES: 0
+
+    volumes:
+      - ./stable-diffusion/models:/models
+    tty: true
+    command: tritonserver --model-repository=/models
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [ gpu ]

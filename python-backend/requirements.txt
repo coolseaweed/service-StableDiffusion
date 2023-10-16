@@ -1,0 +1,6 @@
+fastapi==0.91.0
+openai
+uvicorn==0.20.0
+httpx
+python-dotenv
+loguru==0.6.0
