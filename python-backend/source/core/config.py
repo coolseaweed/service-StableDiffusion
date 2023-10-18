@@ -6,7 +6,8 @@ from source.core.parsers import parse_origins_list
 
 default_model_name= "stable_diffusion"
 default_stable_diffusion_url = "stable-diffusion:8000"
-
+default_stable_diffusion_bucket = "goarcade"
+default_stable_diffusion_key = "kakao/tmp"
 
 def get_config():
     """ load environment variables and return a config object """
@@ -26,8 +27,18 @@ def get_config():
     _config["cors_allow_credentials"] = bool(
         int(os.environ.get("CORS_ALLOW_CREDENTIALS", 0)))
 
+    # triton info.
     _config["model_name"] = os.environ.get("MODEL_NAME",default_model_name)
     _config['model_url'] = os.environ.get("MODEL_URL",default_stable_diffusion_url)
+    _config['stable_diffusion_bucket'] = os.environ.get("STABLE_DIFFUSION_BUCKET",default_stable_diffusion_bucket)
+    _config['stable_diffusion_key'] = os.environ.get("STABLE_DIFFUSION_KEY",default_stable_diffusion_key)
+    
+    
+    # aws info
+    _config['aws_access_key_id'] = os.environ.get("AWS_ACCESS_KEY_ID",None)
+    _config['aws_secret_access_key'] = os.environ.get("AWS_SECRET_ACCESS_KEY",None)
+    _config['default_region'] = os.environ.get("DEFAULT_REGION",None)
+    _config['expires_in'] = int(os.environ.get("AWS_URL_EXPIRES_IN",3600))
     
     # following is for accessing swagger from eks
     _config["root_path"] = str(os.environ.get("ROOT_PATH", ""))

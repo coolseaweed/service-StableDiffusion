@@ -1,9 +1,26 @@
 version: '3.9'
 
 services:
-  server:
+
+  backend:
+    container_name: python-backend
+
+    build:
+      context: ./python-backend
+      dockerfile: Dockerfile
+      target: runtime
+
+    env_file:
+      - .env
+
+    ports:
+      - "8080:8080"
+
+  stable-diffusion:
     container_name: stable-diffusion
-    build: .
+    build:
+      context: ./stable-diffusion
+      dockerfile: Dockerfile
 
     ipc: host
 
@@ -17,7 +34,7 @@ services:
       CUDA_VISIBLE_DEVICES: 0
 
     volumes:
-      - ./models:/models
+      - ./stable-diffusion/models:/models
     tty: true
     command: tritonserver --model-repository=/models
     deploy:

@@ -17,7 +17,7 @@ COPY requirements.txt /api/requirements.txt
 COPY source /api/source
 COPY run.py /api/run.py
 RUN pip install --upgrade pip -r requirements.txt
-
+CMD [ "python" ,"/api/run.py" ]
 
 FROM runtime AS dev
 RUN apt-get update && apt-get install -y \

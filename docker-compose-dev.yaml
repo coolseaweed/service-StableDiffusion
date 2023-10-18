@@ -2,12 +2,17 @@ version: '3.9'
 
 services:
 
+  # python backend
   backend:
     container_name: python-backend
 
     build:
       context: ./python-backend
       dockerfile: Dockerfile
+      target: dev
+
+    env_file:
+      - .env
 
     ports:
       - "8080:8080"
@@ -18,6 +23,7 @@ services:
     tty: true
     command: /bin/bash
 
+  # stable-diffusion triton server
   stable-diffusion:
     container_name: stable-diffusion
     build:

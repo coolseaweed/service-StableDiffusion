@@ -11,9 +11,7 @@ router = APIRouter()
 async def message(request: kakao.KakaoAPI, background_tasks: BackgroundTasks):
 
     logger.debug(f'MESSAGE REQUEST: {request}')
-
     try:
-
         return kakao_api.parse_request(request, background_tasks)
     except Exception as e:
         logger.error(f"ERROR: {e}")
